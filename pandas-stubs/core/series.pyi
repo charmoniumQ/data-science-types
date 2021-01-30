@@ -134,7 +134,7 @@ class Series(Generic[_DType]):
     @overload
     def drop(self, *, columns: Union[_str, List[_str], Index]) -> Series[_DType]: ...
     def drop_duplicates(self, keep: Union[_str, bool] = ...) -> Series[_DType]: ...
-    def duplicated(self, keep: Literal["first", "last", False] = ...) -> Series[_DType]: ...
+    def duplicated(self, subset: List[str] = ..., keep: Literal["first", "last", False] = ...) -> Series[bool]: ...
     @overload
     def fillna(
         self,
@@ -304,7 +304,9 @@ class Series(Generic[_DType]):
     @property
     def at(self) -> _AtIndexerSeries[_DType]: ...
 
-# Local Variables:
+    def iteritems(self) -> Iterable[Tuple[Any, _DType]]: ...
+
+# local Variables:
 # blacken-line-length: 100
 # blacken-allow-py36: t
 # blacken-skip-string-normalization: t

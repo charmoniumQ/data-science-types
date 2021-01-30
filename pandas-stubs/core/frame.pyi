@@ -147,6 +147,7 @@ class DataFrame:
     @overload
     def drop(self, *, columns: Union[_str, List[_str], Index]) -> DataFrame: ...
     def drop_duplicates(self, keep: Union[_str, bool] = ...) -> DataFrame: ...
+    def duplicated(self, subset: List[str] = ..., keep: Literal["first", "last", False] = ...) -> Series[bool]: ...
     def transpose(self, *args: int, copy: bool = ...) -> DataFrame: ...
     @overload
     def dropna(
@@ -318,18 +319,32 @@ class DataFrame:
     def sample(self, n: int, random_state: int = ..., axis: _AxisType = ...) -> DataFrame: ...
     @overload
     def sample(self, axis: _str, frac: float) -> DataFrame: ...
-    def set_index(self, index: Union[_str, List[_str]]) -> DataFrame: ...
+    def set_index(self, index: Union[Index, _str, List[_str]], verify_integrity: bool = ...) -> DataFrame: ...
+
+    @overload
     def sort_index(
         self,
         axis: _AxisType = ...,
         level: Optional[Union[int, _str, List[int], List[_str]]] = ...,
         ascending: bool = ...,
-        inplace: bool = ...,
+        inplace: Literal[True] = ...,
         kind: _str = ...,
         na_position: _str = ...,
         sort_remaining: bool = ...,
         ignore_index: bool = ...,
-    ) -> Optional[DataFrame]: ...
+    ) -> None: ...
+    @overload
+    def sort_index(
+        self,
+        axis: _AxisType = ...,
+        level: Optional[Union[int, _str, List[int], List[_str]]] = ...,
+        ascending: bool = ...,
+        inplace: Literal[False] = ...,
+        kind: _str = ...,
+        na_position: _str = ...,
+        sort_remaining: bool = ...,
+        ignore_index: bool = ...,
+    ) -> DataFrame: ...
     @overload
     def sort_values(
         self,
@@ -377,6 +392,7 @@ class DataFrame:
     def to_dict(self) -> Dict[_str, Any]: ...
     @overload
     def to_dict(self, orient: _str) -> List[Dict[_str, Any]]: ...
+    def join(self, other: DataFrame, on: Union[str, List[str], None] = ..., how: Literal["left", "right", "inner", "outer"] = ..., lsuffix: str = ..., rsuffix: str = ..., sort: bool = ...) -> DataFrame: ...
     def to_feather(self, filename: Path) -> None: ...
     def to_html(
         self,

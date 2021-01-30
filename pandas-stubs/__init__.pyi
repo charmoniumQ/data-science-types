@@ -28,17 +28,21 @@ from .core.arrays.integer import UInt8Dtype as UInt8Dtype
 from .core.arrays.integer import UInt16Dtype as UInt16Dtype
 from .core.arrays.integer import UInt32Dtype as UInt32Dtype
 from .core.arrays.integer import UInt64Dtype as UInt64Dtype
+from .core.arrays.categorical import Categorical as Categorical
 from .core.frame import DataFrame as DataFrame
 from .core.frame import _AxisType, _ListLike
 from .core.indexes import Index as Index
 from .core.indexes import MultiIndex as MultiIndex
 from .core.series import Series as Series
+from .core.dtypes.dtypes import CategoricalDtype as CategoricalDtype
+
 
 def concat(
     dataframes: Union[Sequence[DataFrame], Mapping[str, DataFrame]],
     axis: _AxisType = ...,
     sort: Optional[bool] = ...,
     ignore_index: bool = ...,
+        verify_integrity: bool = ...,
 ) -> DataFrame: ...
 def cut(arr: _np.ndarray, bins: int) -> Tuple[Union[Series, _np.ndarray], _np.ndarray]: ...
 def get_dummies(df: Union[DataFrame, Series], columns: Optional[_ListLike] = ...) -> DataFrame: ...
@@ -171,3 +175,10 @@ def to_numeric(
     downcast: Literal["integer", "signed", "unsigned", "float"] = ...,
 ) -> Union[Series, _np.ndarray]: ...
 def unique(values: Series) -> _np.ndarray: ...
+import sqlite3
+
+def read_sql_query(sql: str, con: Union[str, sqlite3.Connection],
+                   index_col: Union[List[str], str, None]=..., coerce_float: bool =...,
+                   params: Optional[Any] =..., parse_dates: Optional[Any]=..., chunksize:
+                   Optional[int]=...) -> DataFrame:
+    ...
